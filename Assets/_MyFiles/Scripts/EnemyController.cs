@@ -28,7 +28,7 @@ public class EnemyController : MonoBehaviour
     }
 
     public GhostType ghostType;
-    
+
 
     public GameObject ghostNodeLeft;
     public GameObject ghostNodeRight;
@@ -50,6 +50,8 @@ public class EnemyController : MonoBehaviour
     public GameObject[] scatterNodes;
     public int scatterNodeIndex;
 
+    public bool leftHomeBefore = false;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -62,6 +64,7 @@ public class EnemyController : MonoBehaviour
             respawnState = GhostNodeStatesEnum.centerNode;
             startingNode = ghostNodeStart;
             readyToLeaveHome = true;
+            leftHomeBefore = true;
         }
         else if (ghostType == GhostType.pink)
         {
@@ -95,7 +98,7 @@ public class EnemyController : MonoBehaviour
             testRespawn = false;
         }
 
-        if( movementController.currentNode.GetComponent<NodeController>().isSideNode)
+        if (movementController.currentNode.GetComponent<NodeController>().isSideNode)
         {
             movementController.SetSpeed(1);
         }
@@ -109,6 +112,7 @@ public class EnemyController : MonoBehaviour
     {
         if (ghostNodeState == GhostNodeStatesEnum.movingInNodes)
         {
+            leftHomeBefore = true;
             //Scatter mode
             if (gameManager.currentGhostMode == GameManager.GhostMode.scatter)
             {
@@ -142,7 +146,7 @@ public class EnemyController : MonoBehaviour
                 }
             }
 
-            
+
         }
         else if (ghostNodeState == GhostNodeStatesEnum.respawning)
         {
@@ -184,7 +188,7 @@ public class EnemyController : MonoBehaviour
                 direction = GetClosestDirection(ghostNodeStart.transform.position);
             }
 
-            
+
             movementController.SetDirection(direction);
         }
         else
@@ -229,24 +233,24 @@ public class EnemyController : MonoBehaviour
         {
             possibleDirections.Add("down");
         }
-        if (nodeController.canMoveDown && movementController.lastMovingDirection != "down")
+        if (nodeController.canMoveUp && movementController.lastMovingDirection != "down")
         {
             possibleDirections.Add("up");
         }
-        if (nodeController.canMoveDown && movementController.lastMovingDirection != "left")
+        if (nodeController.canMoveRight && movementController.lastMovingDirection != "left")
         {
             possibleDirections.Add("right");
         }
-        if (nodeController.canMoveDown && movementController.lastMovingDirection != "right")
+        if (nodeController.canMoveLeft && movementController.lastMovingDirection != "right")
         {
             possibleDirections.Add("left");
         }
 
         string direction = "";
-        int randomDirectionIndex = Random.Range(0, possibleDirections.Count);
+        int randomDirectionIndex = Random.Range(0, possibleDirections.Count - 1);
         direction = possibleDirections[randomDirectionIndex];
         return direction;
-       
+
     }
 
     private void DetermingGhostScatterModeDirection()
@@ -271,7 +275,7 @@ public class EnemyController : MonoBehaviour
 
     void DetermineRedGhostDirection()
     {
-       string direction = GetClosestDirection(gameManager.pacman.transform.position);
+        string direction = GetClosestDirection(gameManager.pacman.transform.position);
         movementController.SetDirection(direction);
     }
 
@@ -363,9 +367,9 @@ public class EnemyController : MonoBehaviour
         string lastMovingDriection = movementController.lastMovingDirection;
         string newDirection = "";
         NodeController nodeController = movementController.currentNode.GetComponent<NodeController>();
-        
+
         //If we can move up and we arent reversing
-        if(nodeController.canMoveUp && lastMovingDriection!= "down")
+        if (nodeController.canMoveUp && lastMovingDriection != "down")
         {
             // Get the node above us
             GameObject nodeUp = nodeController.nodeUp;
