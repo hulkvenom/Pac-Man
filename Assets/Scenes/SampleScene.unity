@@ -11784,6 +11784,7 @@ GameObject:
   - component: {fileID: 412261376}
   - component: {fileID: 412261378}
   - component: {fileID: 412261377}
+  - component: {fileID: 412261379}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -11820,10 +11821,21 @@ MonoBehaviour:
   pinkGhost: {fileID: 1560325124}
   blueGhost: {fileID: 1863068607}
   orangeGhost: {fileID: 1028280339}
+  redGhostController: {fileID: 0}
+  pinkGhostController: {fileID: 0}
+  blueGhostController: {fileID: 0}
+  orangeGhostController: {fileID: 0}
   totalPellets: 0
   pelletsLeft: 0
   pelletsCollectedOnThisLife: 0
   hadDeathOnThisLevel: 0
+  gameIsRunning: 0
+  nodeControllers: []
+  newGame: 0
+  clearedLevel: 0
+  startGameAudio: {fileID: 412261379}
+  lives: 0
+  currentLevel: 0
   currentGhostMode: 0
 --- !u!4 &412261375
 Transform:
@@ -12043,6 +12055,102 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 668fec112d343cc42b1da72bef9a7b14, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!82 &412261379
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412261373}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: bba77d5887e5326468d6dfeaae82b5d9, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -30814,6 +30922,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ghostNodeState: 0
+  startGhostNodeState: 0
   respawnState: 0
   ghostType: 3
   ghostNodeLeft: {fileID: 1683762852}
@@ -39124,6 +39233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ghostNodeState: 0
+  startGhostNodeState: 0
   respawnState: 0
   ghostType: 0
   ghostNodeLeft: {fileID: 1683762852}
@@ -47462,6 +47572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ghostNodeState: 0
+  startGhostNodeState: 0
   respawnState: 0
   ghostType: 2
   ghostNodeLeft: {fileID: 1683762852}
@@ -53827,6 +53938,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 0}
   animator: {fileID: 0}
+  startNode: {fileID: 0}
+  startPos: {x: 0, y: 0}
+  gameManager: {fileID: 0}
 --- !u!50 &1795569415
 Rigidbody2D:
   serializedVersion: 4
@@ -55457,6 +55571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ghostNodeState: 0
+  startGhostNodeState: 0
   respawnState: 0
   ghostType: 1
   ghostNodeLeft: {fileID: 1683762852}
