@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.XR;
@@ -40,7 +41,7 @@ public class NodeController : MonoBehaviour
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         if(transform.childCount > 0)
         {
-            gameManager.GotPelletFromNodeController();
+            gameManager.GotPelletFromNodeController(this);
             hasPellet = true;
             isPelletNode = true;
             pelletSprite = GetComponentInChildren<SpriteRenderer>();
@@ -142,6 +143,14 @@ public class NodeController : MonoBehaviour
             return null;
         }
     }
+    public void RespawnPellet()
+    {
+       if (isPelletNode)
+        {
+            hasPellet = true;
+            pelletSprite.enabled = true;
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -152,4 +161,5 @@ public class NodeController : MonoBehaviour
             gameManager.CollectedPellet(this);
         }
     }
+
 }
