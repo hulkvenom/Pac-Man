@@ -53,40 +53,40 @@ public class EnemyController : MonoBehaviour
 
     public bool leftHomeBefore = false;
 
-  
+    private void Awake()
+    {
+            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            movementController = GetComponent<MovementController>();
+            if (ghostType == GhostType.red)
+            {
+                startGhostNodeState = GhostNodeStatesEnum.startNode;
+                respawnState = GhostNodeStatesEnum.centerNode;
+                startingNode = ghostNodeStart;
+
+            }
+            else if (ghostType == GhostType.pink)
+            {
+                startGhostNodeState = GhostNodeStatesEnum.centerNode;
+                respawnState = GhostNodeStatesEnum.centerNode;
+                startingNode = ghostNodeCenter;
+            }
+            else if (ghostType == GhostType.blue)
+            {
+                startGhostNodeState = GhostNodeStatesEnum.leftNode;
+                respawnState = GhostNodeStatesEnum.leftNode;
+                startingNode = ghostNodeLeft;
+            }
+            else if (ghostType == GhostType.orange)
+            {
+                startGhostNodeState = GhostNodeStatesEnum.rightNode;
+                respawnState = GhostNodeStatesEnum.rightNode;
+                startingNode = ghostNodeRight;
+            }
+        
+    }
 
     public void Setup()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        movementController = GetComponent<MovementController>();
-        if (ghostType == GhostType.red)
-        {
-            startGhostNodeState = GhostNodeStatesEnum.startNode;
-            respawnState = GhostNodeStatesEnum.centerNode;
-            startingNode = ghostNodeStart;
-
-        }
-        else if (ghostType == GhostType.pink)
-        {
-            startGhostNodeState = GhostNodeStatesEnum.centerNode;
-            respawnState = GhostNodeStatesEnum.centerNode;
-            startingNode = ghostNodeCenter;
-        }
-        else if (ghostType == GhostType.blue)
-        {
-            startGhostNodeState = GhostNodeStatesEnum.leftNode;
-            respawnState = GhostNodeStatesEnum.leftNode;
-            startingNode = ghostNodeLeft;
-        }
-        else if (ghostType == GhostType.orange)
-        {
-            startGhostNodeState = GhostNodeStatesEnum.rightNode;
-            respawnState = GhostNodeStatesEnum.rightNode;
-            startingNode = ghostNodeRight;
-        }
-        
-        //Split
-
         ghostNodeState = startGhostNodeState;
 
         //Reset our ghosts back to their home position

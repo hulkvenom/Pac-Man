@@ -54,6 +54,8 @@ public class GameManager : MonoBehaviour
     public int lives;
     public int currentLevel;
 
+    public Image blackBackground;
+
     public enum GhostMode
     {
         chase, scatter
@@ -66,7 +68,7 @@ public class GameManager : MonoBehaviour
     {
         newGame = true;
         clearedLevel = false;
-
+        blackBackground.enabled = false;
         
         redGhostController = redGhost.GetComponent<EnemyController>();
         pinkGhostController = pinkGhost.GetComponent<EnemyController>();
@@ -77,19 +79,26 @@ public class GameManager : MonoBehaviour
         
         pacman = GameObject.Find("Player");
 
-        StartCoroutine(Setup());
         
+        
+    }
+
+    private void Start()
+    {
+        StartCoroutine(Setup());
     }
 
     public IEnumerator Setup()
     {
-        Debug.Log("Started IE");
+        
         //If pacman clears a level, a background will appear covering the level, and the game will pause for 0.1 seconds.
         if (clearedLevel)
         {
+            blackBackground.enabled = true;
             //Activate background
             yield return new WaitForSeconds(0.1f);
         }
+        blackBackground.enabled = false;
 
         pelletsCollectedOnThisLife = 0;
         currentGhostMode = GhostMode.scatter;
@@ -108,7 +117,7 @@ public class GameManager : MonoBehaviour
             }
 
         }
-        Debug.Log("Started NG");
+       
         if (newGame)
         {
             startGameAudio.Play();
@@ -117,11 +126,11 @@ public class GameManager : MonoBehaviour
             lives = 3;
             currentLevel = 1;
         }
-        Debug.Log("Started PC");
+        
         
         pacman.GetComponent<PlayerController>().Setup();
         
-        Debug.Log("Started EC");
+       
         
         redGhostController.Setup();
         pinkGhostController.Setup();
@@ -132,7 +141,7 @@ public class GameManager : MonoBehaviour
         clearedLevel = false;
         yield return new WaitForSeconds(waitTimer);
 
-        Debug.Log("Started SG");
+        
 
         StartGame();
     }
@@ -142,6 +151,12 @@ public class GameManager : MonoBehaviour
         gameIsRunning = true;
         siren.Play();
         Debug.Log("Started");
+    }
+
+    void StopGame()
+    {
+        gameIsRunning = false;
+        siren.Stop();
     }
 
     // Update is called once per frame
@@ -163,7 +178,7 @@ public class GameManager : MonoBehaviour
         scoreText.text = "Score: " + score.ToString();
     }
 
-    public void CollectedPellet(NodeController nodeController)
+    public IEnumerator CollectedPellet(NodeController nodeController)
     {
         if (currentMunch == 0)
         {
@@ -205,6 +220,15 @@ public class GameManager : MonoBehaviour
 
         AddToScore(10);
 
+        //Check if there are any pellets left
+        if (pelletsLeft == 0)
+        {
+            currentLevel++;
+            clearedLevel = true;
+            StopGame();
+            yield return new WaitForSeconds(1);
+            StartCoroutine(Setup());
+        }
 
     }
 }

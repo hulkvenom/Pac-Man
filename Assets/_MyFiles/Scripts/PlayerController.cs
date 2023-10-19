@@ -15,9 +15,7 @@ public class PlayerController : MonoBehaviour
 
     public GameManager gameManager;
 
-    
-
-    public void Setup()
+    private void Awake()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         startPos = new Vector2(-0.43f, -0.61f);
@@ -25,16 +23,15 @@ public class PlayerController : MonoBehaviour
         sprite = GetComponentInChildren<SpriteRenderer>();
         movementController = GetComponent<MovementController>();
         startNode = movementController.currentNode;
-       
-        //Split
         
+    }
+
+    public void Setup()
+    {        
         movementController.currentNode = startNode;
         movementController.lastMovingDirection = "left";
         transform.position = startPos;
-        animator.SetBool("moving", false);
-        
-        
-        
+        animator.SetBool("moving", false);              
     }
 
     // Update is called once per frame
