@@ -53,10 +53,10 @@ public class EnemyController : MonoBehaviour
 
     public bool leftHomeBefore = false;
 
-    // Start is called before the first frame update
-    void Awake()
+  
+
+    public void Setup()
     {
-        
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         movementController = GetComponent<MovementController>();
         if (ghostType == GhostType.red)
@@ -64,7 +64,7 @@ public class EnemyController : MonoBehaviour
             startGhostNodeState = GhostNodeStatesEnum.startNode;
             respawnState = GhostNodeStatesEnum.centerNode;
             startingNode = ghostNodeStart;
-            
+
         }
         else if (ghostType == GhostType.pink)
         {
@@ -85,11 +85,8 @@ public class EnemyController : MonoBehaviour
             startingNode = ghostNodeRight;
         }
         
-        
-    }
+        //Split
 
-    public void Setup()
-    {
         ghostNodeState = startGhostNodeState;
 
         //Reset our ghosts back to their home position
