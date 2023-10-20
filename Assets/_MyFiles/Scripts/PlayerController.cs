@@ -29,9 +29,17 @@ public class PlayerController : MonoBehaviour
     public void Setup()
     {        
         movementController.currentNode = startNode;
+        movementController.direction = "left";
         movementController.lastMovingDirection = "left";
+        sprite.flipX = false;
         transform.position = startPos;
+        animator.speed = 1;
         animator.SetBool("moving", false);              
+    }
+
+    public void Stop()
+    {
+        animator.speed = 0;
     }
 
     // Update is called once per frame
@@ -84,5 +92,11 @@ public class PlayerController : MonoBehaviour
 
         sprite.flipY = flipY;
         sprite.flipX = flipX;
+    }
+
+    public void Death()
+    {
+        animator.SetBool("moving", false);
+        animator.SetBool("dead", true);
     }
 }

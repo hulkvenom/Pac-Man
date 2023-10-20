@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -53,8 +54,16 @@ public class EnemyController : MonoBehaviour
 
     public bool leftHomeBefore = false;
 
+    public bool isVisible = true;
+
+    public SpriteRenderer ghostSprite;
+    public SpriteRenderer eyesSprite;
+
     private void Awake()
     {
+        ghostSprite = GetComponent<SpriteRenderer>();
+        
+
             gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             movementController = GetComponent<MovementController>();
             if (ghostType == GhostType.red)
@@ -88,16 +97,22 @@ public class EnemyController : MonoBehaviour
     public void Setup()
     {
         ghostNodeState = startGhostNodeState;
+        readyToLeaveHome = false;
 
         //Reset our ghosts back to their home position
         movementController.currentNode = startingNode;
         transform.position = startingNode.transform.position;
+
+        movementController.direction = "";
+        movementController.lastMovingDirection = "";
 
         //Set their scatter node index back to 0
         scatterNodeIndex = 0;
 
         //Set isFrightened
         isFrightened = false;
+
+        leftHomeBefore = false;
 
         //Set readyToLeaveHome to be false if they are blue or pink
         if (ghostType == GhostType.red)
@@ -109,11 +124,26 @@ public class EnemyController : MonoBehaviour
         {
             readyToLeaveHome = true;
         }
+        SetVisible(true);
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Show our sprite
+        if(isVisible)
+        {
+            ghostSprite.enabled = true;
+            eyesSprite.enabled = true;
+        }
+        //Hide or sprite
+        else
+        {
+            ghostSprite.enabled = false;
+            eyesSprite.enabled = false;
+        }
+
+
         if (!gameManager.gameIsRunning)
         {
             return;
@@ -458,5 +488,27 @@ public class EnemyController : MonoBehaviour
         }
 
         return newDirection;
+    }
+
+    public void SetVisible(bool newIsVisible)
+    {
+        isVisible = newIsVisible;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Player")
+        { 
+            //Get Eaten
+            if(isFrightened)
+            {
+
+            }
+            //Eat Player
+            else
+            {
+                StartCoroutine(gameManager.PlayerEaten());
+            }
+        }
     }
 }

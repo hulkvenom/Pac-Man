@@ -50,11 +50,14 @@ public class GameManager : MonoBehaviour
     public bool clearedLevel;
 
     public AudioSource startGameAudio;
+    public AudioSource death;
 
     public int lives;
     public int currentLevel;
 
     public Image blackBackground;
+
+    public Text gameOverText;
 
     public enum GhostMode
     {
@@ -90,7 +93,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator Setup()
     {
-        
+        gameOverText.enabled = false;
         //If pacman clears a level, a background will appear covering the level, and the game will pause for 0.1 seconds.
         if (clearedLevel)
         {
@@ -109,6 +112,7 @@ public class GameManager : MonoBehaviour
 
         if(clearedLevel || newGame)
         {
+            pelletsLeft = totalPellets;
             waitTimer = 4f;
             //Pellets will respawn when pacman clears the level or starts a new game
             for (int i = 0; i < nodeControllers.Count; i++)
@@ -150,13 +154,14 @@ public class GameManager : MonoBehaviour
     {
         gameIsRunning = true;
         siren.Play();
-        Debug.Log("Started");
+        
     }
 
     void StopGame()
     {
         gameIsRunning = false;
         siren.Stop();
+        pacman.GetComponent<PlayerController>().Stop();
     }
 
     // Update is called once per frame
@@ -230,5 +235,34 @@ public class GameManager : MonoBehaviour
             StartCoroutine(Setup());
         }
 
+    }
+
+
+    public IEnumerator PlayerEaten()
+    {
+        hadDeathOnThisLevel = true;
+        StopGame();
+        yield return new WaitForSeconds(1);
+
+        redGhostController.SetVisible(false);
+        pinkGhostController.SetVisible(false);
+        blueGhostController.SetVisible(false);
+        orangeGhostController.SetVisible(false);
+
+        pacman.GetComponent<PlayerController>().Death();
+        death.Play();
+        yield return new WaitForSeconds(3);
+
+        lives--;
+        if (lives <= 0)
+        {
+            newGame = true;
+            //Display gameover text
+            gameOverText.enabled = true;
+
+            yield return new WaitForSeconds(3);
+        }
+
+        StartCoroutine(Setup());
     }
 }
