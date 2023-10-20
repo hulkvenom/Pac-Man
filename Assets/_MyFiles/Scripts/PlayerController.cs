@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
 
     public GameManager gameManager;
 
+    public bool isDead = false;
+
     private void Awake()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -27,14 +29,16 @@ public class PlayerController : MonoBehaviour
     }
 
     public void Setup()
-    {        
+    {
+        isDead = false;
+        animator.SetBool("dead", false);
+        animator.SetBool("moving", false);              
         movementController.currentNode = startNode;
         movementController.direction = "left";
         movementController.lastMovingDirection = "left";
         sprite.flipX = false;
         transform.position = startPos;
         animator.speed = 1;
-        animator.SetBool("moving", false);              
     }
 
     public void Stop()
@@ -47,8 +51,14 @@ public class PlayerController : MonoBehaviour
     {
         if(!gameManager.gameIsRunning)
         {
+            if (!isDead)
+            {
+                animator.speed = 0;
+            }
             return;
         }
+
+        animator.speed = 1;
 
         animator.SetBool("moving", true);
         if (Input.GetKey(KeyCode.LeftArrow))
@@ -96,7 +106,9 @@ public class PlayerController : MonoBehaviour
 
     public void Death()
     {
+        isDead = true;
         animator.SetBool("moving", false);
+        animator.speed = 1;
         animator.SetBool("dead", true);
     }
 }

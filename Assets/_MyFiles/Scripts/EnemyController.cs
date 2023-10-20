@@ -59,8 +59,13 @@ public class EnemyController : MonoBehaviour
     public SpriteRenderer ghostSprite;
     public SpriteRenderer eyesSprite;
 
+    public Animator animator;
+
+    public Color color;
+
     private void Awake()
     {
+        animator = GetComponent<Animator>();
         ghostSprite = GetComponent<SpriteRenderer>();
         
 
@@ -96,6 +101,8 @@ public class EnemyController : MonoBehaviour
 
     public void Setup()
     {
+        animator.SetBool("moving", false);
+
         ghostNodeState = startGhostNodeState;
         readyToLeaveHome = false;
 
@@ -130,10 +137,24 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (ghostNodeState != GhostNodeStatesEnum.movingInNodes || !gameManager.isPowerPelletRunning)
+        {
+            isFrightened = false;
+        }
+
         //Show our sprite
         if(isVisible)
         {
-            ghostSprite.enabled = true;
+            if (ghostNodeState != GhostNodeStatesEnum.respawning)
+            {
+                ghostSprite.enabled = true;
+            }
+            else
+            {
+                ghostSprite.enabled = false;
+            }
+
+            
             eyesSprite.enabled = true;
         }
         //Hide or sprite
@@ -143,11 +164,37 @@ public class EnemyController : MonoBehaviour
             eyesSprite.enabled = false;
         }
 
+        if (isFrightened)
+        {
+
+            animator.SetBool("frightened", true);
+            eyesSprite.enabled = false;
+            ghostSprite.color = new Color(255, 255, 255, 255);
+        }
+        else
+        {
+            animator.SetBool("frightened", false);
+            animator.SetBool("frightenedBlinking", false);
+            ghostSprite.color = color;
+        }
 
         if (!gameManager.gameIsRunning)
         {
             return;
         }
+
+        if (gameManager.powerPelletTimer - gameManager.currentPowerPelletTime <= 3)
+        {
+            animator.SetBool("frightenedBlinking", true);
+        }
+        else
+        {
+            animator.SetBool("frightenedBlinking", false);
+        }
+
+        
+
+        animator.SetBool("moving", true);
 
         if (testRespawn == true)
         {
@@ -162,8 +209,25 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-            movementController.SetSpeed(1);
+            if (isFrightened)
+            {
+                movementController.SetSpeed(1);
+            }
+            else if (ghostNodeState == GhostNodeStatesEnum.respawning)
+            {
+                movementController.SetSpeed(7);
+            }
+            else
+            {
+                movementController.SetSpeed(2);
+            }
+            
         }
+    }
+
+    public void SetFrightened(bool newIsFrightened)
+    {
+        isFrightened = newIsFrightened;
     }
 
     public void ReachedCenterOfNode(NodeController nodeController)
@@ -497,12 +561,14 @@ public class EnemyController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.tag == "Player" && ghostNodeState != GhostNodeStatesEnum.respawning)
         { 
             //Get Eaten
             if(isFrightened)
             {
-
+                gameManager.GhostEaten();
+                ghostNodeState = GhostNodeStatesEnum.respawning;
+                   
             }
             //Eat Player
             else
