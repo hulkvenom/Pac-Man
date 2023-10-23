@@ -160,7 +160,7 @@ public class EnemyController : MonoBehaviour
             
             eyesSprite.enabled = true;
         }
-        //Hide or sprite
+        //Hide our sprite
         else
         {
             ghostSprite.enabled = false;
@@ -473,7 +473,7 @@ public class EnemyController : MonoBehaviour
             distance *= -1;
         }
 
-        //If we are within 8 nodes of pacmna chase him using Reds logic
+        //If we are within 8 nodes of pacman chase him using Reds logic
         if (distance <= distanceBetweenNodes * 8)
         {
             DetermineRedGhostDirection();

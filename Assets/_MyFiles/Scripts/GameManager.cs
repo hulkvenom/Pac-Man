@@ -260,6 +260,11 @@ public class GameManager : MonoBehaviour
                 powerPelletMultiplier = 1;
             }
         }
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     public void GotPelletFromNodeController(NodeController nodeController)
