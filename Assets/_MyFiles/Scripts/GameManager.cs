@@ -118,6 +118,10 @@ public class GameManager : MonoBehaviour
         if (clearedLevel)
         {
             currentLevel++;
+            redGhostController.SetSpeedAmt_Normal += 0.2f;
+            pinkGhostController.SetSpeedAmt_Normal += 0.2f;
+            blueGhostController.SetSpeedAmt_Normal += 0.2f;
+            orangeGhostController.SetSpeedAmt_Normal += 0.2f;
             blackBackground.enabled = true;
             //Activate background
             yield return new WaitForSeconds(0.1f);

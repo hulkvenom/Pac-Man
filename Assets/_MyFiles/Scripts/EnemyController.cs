@@ -63,6 +63,9 @@ public class EnemyController : MonoBehaviour
 
     public Color color;
 
+    public float SetSpeedAmt_Normal = 2f;
+    public float SetSpeedAmt_Fright = 4f;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -215,11 +218,11 @@ public class EnemyController : MonoBehaviour
             }
             else if (ghostNodeState == GhostNodeStatesEnum.respawning)
             {
-                movementController.SetSpeed(7);
+                movementController.SetSpeed(SetSpeedAmt_Fright);
             }
             else
             {
-                movementController.SetSpeed(2);
+                movementController.SetSpeed(SetSpeedAmt_Normal);
             }
             
         }

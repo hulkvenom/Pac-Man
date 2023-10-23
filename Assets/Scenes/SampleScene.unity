@@ -28964,11 +28964,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1144623622}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -250.2, y: 357.92}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 160, y: 30}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 1}
 --- !u!114 &954486378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31642,6 +31642,8 @@ MonoBehaviour:
   eyesSprite: {fileID: 1521331902}
   animator: {fileID: 0}
   color: {r: 0.98039216, g: 0.54509807, b: 0.050980393, a: 1}
+  SetSpeedAmt_Normal: 2
+  SetSpeedAmt_Fright: 4
 --- !u!4 &1028280344
 Transform:
   m_ObjectHideFlags: 0
@@ -40050,6 +40052,8 @@ MonoBehaviour:
   eyesSprite: {fileID: 623603545}
   animator: {fileID: 0}
   color: {r: 1, g: 0, b: 0, a: 1}
+  SetSpeedAmt_Normal: 2
+  SetSpeedAmt_Fright: 4
 --- !u!4 &1271543657
 Transform:
   m_ObjectHideFlags: 0
@@ -48530,6 +48534,8 @@ MonoBehaviour:
   eyesSprite: {fileID: 1795479338}
   animator: {fileID: 0}
   color: {r: 0.98039216, g: 0.5568628, b: 0.88235295, a: 1}
+  SetSpeedAmt_Normal: 2
+  SetSpeedAmt_Fright: 4
 --- !u!4 &1560325129
 Transform:
   m_ObjectHideFlags: 0
@@ -56714,6 +56720,8 @@ MonoBehaviour:
   eyesSprite: {fileID: 1362701986}
   animator: {fileID: 0}
   color: {r: 0.019607844, g: 0.98039216, b: 0.98039216, a: 1}
+  SetSpeedAmt_Normal: 2
+  SetSpeedAmt_Fright: 4
 --- !u!4 &1863068612
 Transform:
   m_ObjectHideFlags: 0
@@ -58516,11 +58524,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1144623622}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 279.1, y: 357.92}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 160, y: 30}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 1, y: 1}
 --- !u!114 &1907895290
 MonoBehaviour:
   m_ObjectHideFlags: 0
